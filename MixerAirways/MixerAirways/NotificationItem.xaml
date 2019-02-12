@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="MixerAirways.NotificationItem"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MixerAirways"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="500">
+    <Grid Margin="15 5 15 5" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+        <Border x:Name="background" CornerRadius="10" BorderBrush="Black" BorderThickness="1">
+            <StackPanel >
+                <StackPanel Margin="5,23,5,5" Background="{x:Null}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel>
+                        <StackPanel Margin="0" Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Hi,dear, your flight from" FontSize="20" Margin="0"/>
+                            <TextBlock x:Name="DepCity" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DepCity" FontSize="20" Margin="10,0,0,0"/>
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="to" FontSize="20" Margin="5,0,0,0"/>
+                            <TextBlock x:Name="ArrCity" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ArrCity" FontSize="20" Margin="10,0,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="that is departing at   " FontSize="20" Margin="0"/>
+                            <TextBlock x:Name="DepTime" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DepTime" FontSize="20" Margin="0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="Status" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Status" FontSize="25" Margin="0" Foreground="#FFFD2525"/>
+
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

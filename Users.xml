@@ -1,0 +1,20 @@
+<Users>
+	<User>
+		<username>admin</username>
+		<password>admin</password>
+		<contact_data>admin@mail.ru</contact_data>
+		<account_type>0</account_type>
+	</User>
+	<User>
+		<username>mixer</username>
+		<password>mixer</password>
+		<contact_data>mixer.shpixer@mail.ru</contact_data>
+		<account_type>1</account_type>
+	</User>
+	<User>
+		<username>user</username>
+		<password>user</password>
+		<contact_data>user.user@mail.ru</contact_data>
+		<account_type>1</account_type>
+	</User>
+</Users>

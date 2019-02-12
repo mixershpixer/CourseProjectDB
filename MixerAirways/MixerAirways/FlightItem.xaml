@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="MixerAirways.FlightItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MixerAirways"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="900" MouseUp="UserControl_MouseUp">
+    <Grid Margin="15 5 15 5" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+        <Border x:Name="background" CornerRadius="10" Background="#FFD7C4FF" BorderBrush="Black" BorderThickness="1">
+            <StackPanel >
+                <StackPanel Margin="5" Background="#FFD7C4FF" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel Margin="5" Width="415" Background="#FFBEBEF5">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="From" FontSize="20" Margin="0"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock x:Name="DepAirport" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DepAirport" FontSize="20" Margin="0,0,10,0"/>
+                                <TextBlock x:Name="DepCity" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DepCity" FontSize="20" Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock x:Name="DepTime" HorizontalAlignment="Center" VerticalAlignment="Center" Text="DepTime" FontSize="20" Margin="0"/>
+                        </StackPanel>
+                        <StackPanel Margin="5" Width="415" Background="#FFBEBEF5">
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="To" FontSize="20" Margin="0"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock x:Name="ArrAirport" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ArrAirport" FontSize="20" Margin="0,0,10,0"/>
+                                <TextBlock x:Name="ArrCity" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ArrCity" FontSize="20" Margin="10,0,0,0"/>
+                            </StackPanel>
+                            <TextBlock x:Name="ArrTime" HorizontalAlignment="Center" VerticalAlignment="Center" Text="ArrTime" FontSize="20" Margin="0"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Model      " FontSize="20" Margin="0"/>
+                        <TextBlock x:Name="Model" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Model" FontSize="20" Margin="0"/>
+                    </StackPanel>
+                    <TextBlock x:Name="ID" Visibility="Collapsed"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

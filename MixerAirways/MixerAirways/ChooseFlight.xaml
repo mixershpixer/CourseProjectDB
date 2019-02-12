@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="MixerAirways.ChooseFlight"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MixerAirways"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+               d:DesignHeight="550" d:DesignWidth="940">
+    <Grid>
+        <materialDesign:DialogHost IsOpen="False" x:Name="No1">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="15" Orientation="Vertical">
+                    <TextBlock Text="There are no planes fly from this city" Foreground="#FF9800" FontSize="20" Margin="0"/>
+                    <Button Foreground="#7E57C2" Content="Ok" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=No1}"/>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <materialDesign:DialogHost IsOpen="False" x:Name="No2">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="15" Orientation="Vertical">
+                    <TextBlock Text="There are no planes fly to this city" Foreground="#FF9800" FontSize="20" Margin="0"/>
+                    <Button Foreground="#7E57C2" Content="Ok" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=No2}"/>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <materialDesign:DialogHost IsOpen="False" x:Name="No3">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="15" Orientation="Vertical">
+                    <TextBlock Text="There are no flights beetwen this cities" Foreground="#FF9800" FontSize="20" Margin="0"/>
+                    <Button Foreground="#7E57C2" Content="Ok" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=No3}"/>
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <materialDesign:TransitioningContent x:Name="Trance" OpeningEffect="{materialDesign:TransitionEffect SlideInFromRight, Duration=0:0:0.5}">
+            <StackPanel Background="{x:Null}">
+                <StackPanel Height="50" Orientation="Horizontal" Margin="15 0 0 0">
+                    <StackPanel Height="50" Orientation="Horizontal">
+                        <materialDesign:PackIcon x:Name="Icon1" Kind="Magnify" Margin="0 12 0 0" Foreground="#FF9800" Width="40" Height="40" HorizontalAlignment="Center" VerticalContentAlignment="Bottom" VerticalAlignment="Top"/>
+                        <TextBox x:Name="DepCity" Height="40" Margin="0,0,10,-0.255"  materialDesign:HintAssist.Hint="Departure City"  BorderBrush="Black" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="238" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="ArrCity" Height="40" Margin="0,0,10,-0.255"  materialDesign:HintAssist.Hint="Arrival City"  BorderBrush="Black" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="238" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="DepTme" Height="40" Margin="0,0,10,-0.255"  materialDesign:HintAssist.Hint="Departure Time"  BorderBrush="Black" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="238" VerticalAlignment="Bottom"/>
+                        <Button x:Name="Search" Height="40" Click="Search_Click"  Margin="0 9 0 0" Content="Search" Foreground="White" FontSize="18" Background="#FF9800" BorderBrush="#FFF5F1E4"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <materialDesign:DialogHost IsOpen="False" Margin="0 0 0 0" x:Name="SearchFail" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center">
+                            <materialDesign:DialogHost.DialogContent>
+                                <StackPanel Margin="10" Orientation="Vertical">
+                                    <TextBlock Text="No results" Foreground="#FF9800" FontSize="20" Margin="10"/>
+                                    <Button Foreground="#7E57C2" Content="Try again" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=SearchFail}"/>
+                                </StackPanel>
+                            </materialDesign:DialogHost.DialogContent>
+                        </materialDesign:DialogHost>
+                    </StackPanel>
+                    
+                    
+                </StackPanel>
+                <Grid Height="480" ScrollViewer.CanContentScroll="True" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                    <materialDesign:TransitioningContent>
+                        <materialDesign:TransitioningContent.OpeningEffects>
+                            <materialDesign:TransitionEffect Duration="0:0:0.5" Kind="SlideInFromRight" />
+                            <materialDesign:TransitionEffect Duration="0:0:0.5" Kind="FadeIn" />
+                        </materialDesign:TransitioningContent.OpeningEffects>
+                        <ScrollViewer Name="scroll" Background="{x:Null}"  CanContentScroll="True" MaxWidth="940" Margin="10,20,-20,-10">
+                            <WrapPanel Background="{x:Null}" x:Name="ListFlightsWrapPanel" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+                        </ScrollViewer>
+                    </materialDesign:TransitioningContent>
+                </Grid>
+            </StackPanel>
+        </materialDesign:TransitioningContent>
+    </Grid>
+</UserControl>

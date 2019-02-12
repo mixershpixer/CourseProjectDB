@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="MixerAirways.MyAccount"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MixerAirways"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+          d:DesignHeight="550" d:DesignWidth="940">
+    <Grid>
+        
+        <materialDesign:TransitioningContent x:Name="Trance" OpeningEffect="{materialDesign:TransitionEffect SlideInFromRight, Duration=0:0:0.5}">
+            <materialDesign:TransitioningContent.OpeningEffects>
+                <materialDesign:TransitionEffect Duration="0:0:0.5" Kind="FadeIn" />
+            </materialDesign:TransitioningContent.OpeningEffects>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Background>
+                    <ImageBrush ImageSource="Resources/Aircraft.png" Stretch="Fill" Opacity="0.15"/>
+                </StackPanel.Background>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="100 30 0 0" Width="Auto">
+                        <TextBlock x:Name="UserName" HorizontalAlignment="Center" VerticalAlignment="Center" Text="username" FontSize="40" Margin="0 5" Foreground="#FF9800"/>
+                        <StackPanel HorizontalAlignment="Center"  Orientation="Horizontal">
+                            <TextBlock x:Name="Email" HorizontalAlignment="Left" VerticalAlignment="Center" Text="email" FontSize="24" Margin="0 5" Foreground="Black"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel>
+                        <Button x:Name="EditBtn" Click="EditBtn_Click" Style="{DynamicResource MaterialDesignFloatingActionButton}" FontSize="10" VerticalAlignment="Center" Background="#FF9800"  HorizontalAlignment="Right" Height="40" Width="40" Margin="15 60 0 0"  >
+                            <materialDesign:PackIcon Kind="Edit" Foreground="White" Width="25" Height="25" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Bottom"/>
+                            <Button.ToolTip>
+                                <ToolTip Placement="Mouse">
+                                    Remove from bookings
+                                </ToolTip>
+                            </Button.ToolTip>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel x:Name="RedStack" Visibility="Hidden" Margin="50 50 0 0">
+                        <TextBox x:Name="UserNameTxt" Margin="0,0,10,0" materialDesign:HintAssist.Hint="Enter username here" materialDesign:HintAssist.IsFloating="True" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="320"/>
+                        <PasswordBox x:Name="PasswordTxt" Margin="0,0,10,0" materialDesign:HintAssist.Hint="Enter password here" materialDesign:HintAssist.IsFloating="True" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="320"/>
+                        <PasswordBox x:Name="ConfPasswordTxt" Margin="0,0,10,0" materialDesign:HintAssist.Hint="Confirm password" materialDesign:HintAssist.IsFloating="True" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="320"/>
+                        <TextBox x:Name="EmailTxt" Margin="0,0,10,0" materialDesign:HintAssist.Hint="Enter email here" materialDesign:HintAssist.IsFloating="True" Background="{x:Null}" Foreground="Black" FontSize="20"  Cursor="Pen" HorizontalAlignment="Center" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" VerticalAlignment="Center" Width="320"/>
+                        <materialDesign:DialogHost IsOpen="False" x:Name="Conf">
+                            <materialDesign:DialogHost.DialogContent>
+                                <StackPanel Margin="15" Orientation="Vertical">
+                                    <TextBlock Text="Do you want to save changes?" Foreground="#FF9800" FontSize="20" Margin="0"/>
+                                    <TextBlock Text="(need to relogin)" Foreground="#FF9800" FontSize="20" Margin="0" HorizontalAlignment="Center"/>
+                                    <Button x:Name="ConfCh" Foreground="#7E57C2" Content="Yes" Style="{DynamicResource MaterialDesignFlatButton}" Click="ConfCh_Click"/>
+                                    <Button Foreground="#7E57C2" Content="No" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=Conf}"/>
+                                </StackPanel>
+                            </materialDesign:DialogHost.DialogContent>
+                        </materialDesign:DialogHost>
+                        <materialDesign:DialogHost IsOpen="False" x:Name="Error">
+                            <materialDesign:DialogHost.DialogContent>
+                                <StackPanel Margin="15" Orientation="Vertical">
+                                    <TextBlock Text="Incorrect input" Foreground="#FF9800" FontSize="20" Margin="0" HorizontalAlignment="Center"/>
+                                    <Button Foreground="#7E57C2" Content="Ok" Style="{DynamicResource MaterialDesignFlatButton}" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" CommandTarget="{Binding ElementName=Error}"/>
+                                </StackPanel>
+                            </materialDesign:DialogHost.DialogContent>
+                        </materialDesign:DialogHost>
+                        <Button x:Name="Confirm" Height="40" Click="Confirm_Click"  Margin="0 9 0 0" Content="Confirm changes" Foreground="White" FontSize="18" Background="#FF9800" BorderBrush="#FFF5F1E4"/>
+                    </StackPanel>
+                </StackPanel>
+                <!--<StackPanel Width="450" Height="500" HorizontalAlignment="Right" Margin="-300 0 0 0">
+                    <Image Source="Resources/Aircraft.png"  Stretch="Fill" Opacity="0.2" Height="493" Margin="-354,0,-36,0"  />
+                </StackPanel>-->
+            </StackPanel>
+        </materialDesign:TransitioningContent>
+    </Grid>
+</UserControl>
+
