@@ -1,6 +1,11 @@
 use AeroDB;
 --USER
-alter procedure user_auth @username nvarchar(50), @password nvarchar(50)
+
+insert into Account_types values (0, 'admin');
+insert into Account_types values (1, 'user');
+
+
+create procedure user_auth @username nvarchar(50), @password nvarchar(50)
 as 
 	if (select count(*) from Users where username = @username and password = @password) = 1
 	begin
@@ -14,7 +19,9 @@ as
 	else select 0
 go
 
-alter procedure user_reg @username nvarchar(50), @password nvarchar(50), @contact_data nvarchar(50)
+insert into Users(username, password, contact_data, account_type) values ('admin', 'admin', 'admin.admin@mail.ru', 0);
+
+create procedure user_reg @username nvarchar(50), @password nvarchar(50), @contact_data nvarchar(50)
 as
 	if(select count(*) from Users where username = @username) != 0 select -5
 	else
@@ -27,20 +34,18 @@ as
 	end
 go
 
-exec user_reg @username = 'admin', @password = 'admin', @contact_data = 'admin.admin@mail.ru';
 exec user_reg @username = 'mixer', @password = '11111', @contact_data = 'mixer.shpixer@mail.ru';
 exec user_reg @username = 'ivan', @password = '11111', @contact_data = 'ivanchik@mail.ru';
 exec user_reg @username = 'petro', @password = '11111', @contact_data = 'petros@mail.ru';
 exec user_reg @username = 'jopa', @password = '11111', @contact_data = 'jopa@mail.ru';
 
-alter procedure user_logout @user_id int
+create procedure user_logout @user_id int
 as
 	if(select count(*) from Sessions where user_id = @user_id and is_active = 1) = 0 select 0
 	else update Sessions set is_active = 0 where user_id = @user_id 
 go
-exec user_logout 4;
 
-alter procedure user_change @user_id int, @username nvarchar(50), @password nvarchar(50), @contact_data nvarchar(50)
+create procedure user_change @user_id int, @username nvarchar(50), @password nvarchar(50), @contact_data nvarchar(50)
 as
 	if(select count(*) from Users u 
 	inner join Sessions s on u.user_id=s.user_id 
@@ -52,7 +57,7 @@ go
 
 exec user_change 1, 'mixer', '11111', 'mixer@mail.ru';
 
-alter procedure user_del @user_id int
+create procedure user_del @user_id int
 as
 	if(select count(*) from Users where user_id = @user_id) != 0
 		if(select count(*) from Bookings where passenger_id = @user_id) != 0
@@ -60,8 +65,6 @@ as
 		else THROW 56000, 'You cant delete user while he has an active bookings', 1;
 	else THROW 56000, 'There are no users with that ID', 1;
 go
-
-exec user_auth 'admin','admin'
 
 --AIRCRAFT
 
@@ -94,7 +97,7 @@ exec new_aircraft 'Ан-124', 70, 150, 100;
 exec new_aircraft 'Ан-255', 40, 70, 110;
 
 --change_aircraft
-alter procedure change_aircraft @aircraft_code int,  @model nvarchar(50), @a_class_seats int, @b_class_seats int, @c_class_seats int
+create procedure change_aircraft @aircraft_code int,  @model nvarchar(50), @a_class_seats int, @b_class_seats int, @c_class_seats int
 as	
 	if((select count(*) from Flights where aircraft_code = @aircraft_code) = 0)
 	begin 
@@ -107,7 +110,7 @@ as
 go
 
 --del_aircraft
-alter procedure del_aircraft @aircraft_code int
+create procedure del_aircraft @aircraft_code int
 as
 	if((select count(*) from Flights where aircraft_code = @aircraft_code) = 0)
 	begin 
@@ -115,12 +118,10 @@ as
 	delete from Aircrafts where aircraft_code = @aircraft_code
 	end else THROW 56000, 'You cannot delete this aircraft while it is in the active flight', 1;
 go
-drop procedure del_aircraft;
-exec del_aircraft @aircraft_code = 10;
 
 --FLIGHTS
 
-alter procedure new_flight @departure_time nvarchar(50), @departure_airport int, @aircraft_code int, @arrival_time nvarchar(50), @arrival_airport int
+create procedure new_flight @departure_time nvarchar(50), @departure_airport int, @aircraft_code int, @arrival_time nvarchar(50), @arrival_airport int
 as
 	if(select count(*) from Airports where airport_code = @departure_airport) != 0
 		if(select count(*) from Airports where airport_code = @arrival_airport) != 0
@@ -137,7 +138,7 @@ go
 
 exec new_flight @departure_time = '2018-11-24 11:25', @departure_airport = 2, @aircraft_code = 1, @arrival_time = '2018-11-24 20:25', @arrival_airport = 2;
 
-alter procedure moder_change_flight_status @user_id int, @flight_id int 
+create procedure moder_change_flight_status @user_id int, @flight_id int 
 as 
 	if (select count(*) from Sessions where user_id = @user_id and account_type = 0) != 0
 	begin
@@ -146,10 +147,6 @@ as
 	end
 	else select 0
 go
-
-
-exec moder_change_flight_status 1, 93001;
-
 
 create trigger updated_flights on Flights after update
 as
@@ -171,7 +168,7 @@ begin
 end 
 
 
-alter procedure view_all_notifications @user_id int
+create procedure view_all_notifications @user_id int
 as
 	if (select count(*) from Notifications where user_id = @user_id) != 0
 		select 1, format(DATEADD(second, f.departure_time, '1970/01/01 00:00'), 'dd.MM.yyyy HH.mm'), ap1.city, ap2.city, n.not_code
@@ -186,21 +183,14 @@ as
 	else select 0
 go
 
-alter procedure del_flight @flight_id int
+create procedure del_flight @flight_id int
 as
 	if(select count(*) from Bookings where flight_id = @flight_id) = 0
 	delete from Flights where flight_id = @flight_id
 	else THROW 71000, 'You can not delete Active flight with bookings', 1;
 go
 
-
-exec view_all_notifications 3;
-
-delete from Notifications where notification_id > 0;
-
-exec choose_flight @departure_date = '21.12', @departure_city = 'Dallas', @arrival_city = 'Paris';
-
-alter procedure choose_flight @departure_date nvarchar(50), @departure_city nvarchar(50), @arrival_city nvarchar(50)
+create procedure choose_flight @departure_date nvarchar(50), @departure_city nvarchar(50), @arrival_city nvarchar(50)
 as
 	declare 
 	@i int = 1,
@@ -263,15 +253,12 @@ as
 	SELECT DATEDIFF(ms,@start,@end) AS [Duration in microseconds]
 go
 
-
-
-
 --BOOKINGS
 create sequence book_ref_seq
   start with 1
   increment by 1;
 
-alter procedure new_book @passenger_id int, @fare_condition nvarchar(50), @flight_id int
+create procedure new_book @passenger_id int, @fare_condition nvarchar(50), @flight_id int
 as
 	declare
 	@a datetime = CURRENT_TIMESTAMP,
@@ -355,9 +342,7 @@ as
 		values(@book_ref, @passenger_id, @book_date, @flight_id, @seat_no, @fare_condition, @price, 1)
 go
 
-exec new_book @passenger_id = 1, @fare_condition = 'C', @flight_id = 93001;
-
-alter procedure revoke_book @passenger_id int, @flight_id int
+create procedure revoke_book @passenger_id int, @flight_id int
 as 
 	declare 
 	@fare_condition nvarchar(50)
@@ -384,10 +369,8 @@ as
 				end
 	delete from Bookings where passenger_id = @passenger_id and flight_id = @flight_id
 go
-exec revoke_book 3, 1;
-exec revoke_book 4, 5;
 
-alter procedure view_my_books @passenger_id int
+create procedure view_my_books @passenger_id int
 as 
 	if(select count(*) from Bookings where passenger_id = @passenger_id) = 0 select 0
 	else 
@@ -407,13 +390,9 @@ as
 	order by b.book_date desc
 go
 
-exec view_my_books 7;
-select * from Users;
 --TICKETS
-exec buy_ticket @user_id = 7, @flight_id = 93001;
-exec view_my_tickets 1;
 
-alter procedure buy_ticket @passenger_id int, @flight_id int
+create procedure buy_ticket @passenger_id int, @flight_id int
 as
 	declare
 	@book_ref int
@@ -427,7 +406,7 @@ as
 		THROW 50000, 'You have no active booking for this flight', 1;
 go
 
-alter procedure view_my_tickets @passenger_id int
+create procedure view_my_tickets @passenger_id int
 as 
 	if(select count(*) from Tickets where passenger_id = @passenger_id) = 0 select 0
 	else 
@@ -448,23 +427,13 @@ as
 	order by t.ticket_no desc
 go
 
-alter procedure return_ticket_back @passenger_id int, @flight_id int
+create procedure return_ticket_back @passenger_id int, @flight_id int
 as
 	if(select count(*) from Tickets where passenger_id = @passenger_id and flight_id = @flight_id) = 0 select 0
 	else 
 		delete from Tickets where passenger_id = @passenger_id and flight_id = @flight_id
 		delete from Bookings where passenger_id = @passenger_id and flight_id = @flight_id
 go
-exec return_ticket_back 2, 90381;
-
-select * from Tickets;
-select * from Bookings;
-select * from Notifications;
-
-
-delete from Bookings where passenger_id = 1;
-
-
 
 create procedure Select_Count_Aircrafts @dep_air int, @arr_air int
 as
@@ -477,15 +446,11 @@ as
 select departure_time, departure_airport, aircraft_code from Flights where (format(DATEADD(second, departure_time, '1970/01/01 00:00'), 'dd.MM')) between @start_date and @end_date
 go
 
-exec Count_Flights '12.12','13.12'
 
-alter procedure AircraftsInfo
+create procedure AircraftsInfo
 as
 select model, (a_class_seats + b_class_seats + c_class_seats) as total_seats from Aircrafts
 go
-
-exec AircraftsInfo;
-
 
 create procedure Insert_Xml
 as 
@@ -501,12 +466,11 @@ begin
 	from @xml.nodes('/Users/User') XmlData(x)
 end;
 
-
-create procedure Export_Xml
-as
-	select * from Users
-	for xml path('user'), root('USERS');
-go
+--create procedure Export_Xml
+--as
+--	select * from Users
+--	for xml path('user'), root('USERS');
+--go
 
 exec Insert_Users_Xml;
-exec Export_Users_Xml;
+--exec Export_Users_Xml;

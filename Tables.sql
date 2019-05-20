@@ -1,3 +1,4 @@
+create database AeroDB;
 use AeroDB;
 
 create table Airports(
@@ -27,6 +28,22 @@ create table Flights(
 	constraint FK_Departure_airport_Flights foreign key (departure_airport) references Airports(airport_code),
 	constraint FK_Aircraft_code_Flights foreign key (aircraft_code) references Aircrafts(aircraft_code),
 	constraint FK_Arrival_airport_Flights foreign key (arrival_airport) references Airports(airport_code)
+);
+
+create table Account_types(
+	code int not null,
+	type nvarchar(50),
+	constraint [PK_Code_Account_types] primary key clustered (code ASC)
+);
+
+create table Users(
+	user_id int identity not null,
+	username nvarchar(50) not null,
+	password nvarchar(50) not null,
+	contact_data nvarchar(50) not null,
+	account_type int not null,
+	constraint [PK_User_id_Users] primary key clustered (user_id ASC),
+	constraint FK_Account_type_Users foreign key (account_type) references Account_types(code)
 );
 
 create table Bookings(
@@ -68,22 +85,6 @@ create table Sessions(
 	constraint FK_Account_type_Sessions foreign key (account_type) references Account_types(code)
 );
 
-create table Account_types(
-	code int not null,
-	type nvarchar(50),
-	constraint [PK_Code_Account_types] primary key clustered (code ASC)
-);
-
-create table Users(
-	user_id int identity not null,
-	username nvarchar(50) not null,
-	password nvarchar(50) not null,
-	contact_data nvarchar(50) not null,
-	account_type int not null,
-	constraint [PK_User_id_Users] primary key clustered (user_id ASC),
-	constraint FK_Account_type_Users foreign key (account_type) references Account_types(code)
-);
-
 create table Notifications(
 	notification_id int identity not null,
 	user_id int not null,
@@ -93,17 +94,30 @@ create table Notifications(
 	constraint FK_User_id_Users foreign key (user_id) references Users(user_id)
 );
 
+
+insert into Airports values ('Dubai international airport','Dubai');
+insert into Airports values ('Soekarno-Hatta','Jakarta');
+insert into Airports values ('International airport Dallas','Dallas');
+insert into Airports values ('International airport Charles de Gaulle','Paris');
+insert into Airports values ('International airport Los Angeles','Los Angeles');
+insert into Airports values ('Haneda airport','Tokyo');
+insert into Airports values ('Heathrow Airport','London');
+insert into Airports values ('Ohare airport','Chicago');
+insert into Airports values ('Beijing capital international airport','Beijing');
+insert into Airports values ('Hartsfield-Jackson','Atlanta');
+
+
 begin 
 declare 
 @i int = 0,
 @time int,
 @dep int,
 @arr int
-while @i < 100000
+while @i < 1000
 begin
-set @time = ROUND(((1546300800 - 1543306489 - 1) * RAND() + 1543306489), 0)
-set @dep = ROUND(((15 - 1 - 1) * RAND() + 1), 0)
-set @arr = ROUND(((15 - 1 - 1) * RAND() + 1), 0)
+set @time = ROUND(((1575158400 - 1546300800 - 1) * RAND() + 1543306489), 0)
+set @dep = ROUND(((10 - 1 - 1) * RAND() + 1), 0)
+set @arr = ROUND(((10 - 1 - 1) * RAND() + 1), 0)
 while (@dep = @arr) set @arr = ROUND(((15 - 1 - 1) * RAND() + 1), 0)
 insert into Flights(departure_time, departure_airport, aircraft_code, arrival_time, arrival_airport) 
 values (@time, @dep, 
